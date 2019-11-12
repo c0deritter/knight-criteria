@@ -1,0 +1,34 @@
+{
+  "name": "mega-nice-sql-query-options",
+  "version": "1.0.0",
+  "description": "A mega nice data structure to work with SQL query options.",
+  "main": "lib/sqlQueryOptions.js",
+  "types": "lib/sqlQueryOptions.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "dependencies": {
+    "mega-nice-sql": "^1.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.4.1",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c0deritter/mega-nice-sql-query-options.git"
+  },
+  "keywords": [
+    ""
+  ],
+  "author": "Coderitter GmbH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/c0deritter/mega-nice-sql-query-options/issues"
+  },
+  "homepage": "https://github.com/c0deritter/mega-nice-sql-query-options#readme"
+}
