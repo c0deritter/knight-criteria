@@ -1,15 +1,13 @@
 {
   "name": "mega-nice-sql-query-options",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A mega nice data structure to work with SQL query options.",
   "main": "lib/sqlQueryOptions.js",
   "types": "lib/sqlQueryOptions.d.ts",
   "files": [
     "lib/**/*"
   ],
-  "dependencies": {
-    "mega-nice-sql": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "ts-node": "^8.4.1",
     "typescript": "^3.7.2"
