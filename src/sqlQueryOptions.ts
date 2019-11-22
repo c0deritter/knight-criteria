@@ -11,7 +11,7 @@ export interface SqlInsertOptions {
   [column: string]: any
 }
 
-export interface SqlReadOptions extends SqlQueryOptions { }
+export interface SqlSelectOptions extends SqlQueryOptions { }
 
 export interface SqlUpdateOptions {
   [column: string]: any
