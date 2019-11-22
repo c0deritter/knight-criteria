@@ -15,7 +15,7 @@ export interface SqlSelectOptions extends SqlQueryOptions { }
 
 export interface SqlUpdateOptions {
   [column: string]: any
-  readOptions?: SqlQueryOptions
+  queryOptions?: SqlQueryOptions
 }
 
 export interface SqlDeleteOptions extends SqlQueryOptions { }
