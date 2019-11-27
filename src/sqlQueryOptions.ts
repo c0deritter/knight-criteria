@@ -1,4 +1,4 @@
-export interface SqlQueryOptions {
+export class SqlQueryOptions {
 
   [column: string]: any | [] | { operator: string, value: any | [] } | { operator: string, value: any | [] }[]
   orderBy?: string | string[] | { column: string, direction?: string } | { column: string, direction?: string }[]
@@ -7,15 +7,15 @@ export interface SqlQueryOptions {
 
 }
 
-export interface SqlInsertOptions {
+export class SqlInsertOptions {
   [column: string]: any
 }
 
-export interface SqlSelectOptions extends SqlQueryOptions { }
+export class SqlSelectOptions extends SqlQueryOptions { }
 
-export interface SqlUpdateOptions {
+export class SqlUpdateOptions {
   [column: string]: any
   queryOptions?: SqlQueryOptions
 }
 
-export interface SqlDeleteOptions extends SqlQueryOptions { }
+export class SqlDeleteOptions extends SqlQueryOptions { }
