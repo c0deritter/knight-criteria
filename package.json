@@ -1,6 +1,6 @@
 {
   "name": "mega-nice-sql-query-options",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "A mega nice data structure to work with SQL query options.",
   "main": "lib/sqlQueryOptions.js",
   "types": "lib/sqlQueryOptions.d.ts",
