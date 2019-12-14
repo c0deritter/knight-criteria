@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "build": "tsc"
+    "build": "rm -rf lib && tsc"
   },
   "repository": {
     "type": "git",
