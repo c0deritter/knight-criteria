@@ -35,6 +35,12 @@ let options: SqlInsertOptions = {
 }
 ```
 
+Describes a query looking like this.
+
+```
+... INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
+```
+
 ### SqlUpdateOptions
 
 ```typescript
@@ -46,4 +52,10 @@ let options = new SqlUpdateOptions({
     id: 4
   }
 })
+```
+
+Describes a query looking like this.
+
+```
+... UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
 ```
