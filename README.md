@@ -38,7 +38,7 @@ let options: SqlInsertOptions = {
 Describes a query looking like this.
 
 ```
-... INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
+INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
 ```
 
 ### SqlUpdateOptions
@@ -57,5 +57,5 @@ let options = new SqlUpdateOptions({
 Describes a query looking like this.
 
 ```
-... UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
+UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
 ```
