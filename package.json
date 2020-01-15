@@ -1,6 +1,6 @@
 {
   "name": "mega-nice-db-query-options",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A mega nice data structure to describe database queries.",
   "main": "lib/dbQueryOptions.js",
   "types": "lib/dbQueryOptions.d.ts",
