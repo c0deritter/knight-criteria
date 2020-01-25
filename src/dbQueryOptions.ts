@@ -9,14 +9,24 @@ export interface DbInsertOptions {
   [field: string]: any
 }
 
-export interface DbSelectOptions extends DbCriteria { }
+export interface DbCreateOptions {
+  [field: string]: any
+}
+
+export interface DbReadOptions extends DbCriteria {}
+
+export interface DbSelectOptions extends DbCriteria {}
+
+export interface DbFindOptions extends DbCriteria {}
 
 export interface DbUpdateOptions {
   [field: string]: any
   criteria?: DbCriteria
 }
 
-export interface DbDeleteOptions extends DbCriteria { }
+export interface DbDeleteOptions extends DbCriteria {}
+
+export interface DbRemoveOptions extends DbCriteria {}
 
 export function getFieldsToUpdate(options: DbUpdateOptions): string[] {
   let fields = []
