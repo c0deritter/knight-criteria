@@ -1,22 +1,22 @@
-export class DbCriteria {
+export interface DbCriteria {
   [field: string]: (any | []) | {operator: string, value: (any | [])} | {operator: string, value: (any | [])}[]
   orderBy?: string | string[] | {field: string, direction?: string} | {field: string, direction?: string}[]
   limit?: number
   offset?: number
 }
 
-export class DbInsertOptions {
+export interface DbInsertOptions {
   [field: string]: any
 }
 
-export class DbSelectOptions extends DbCriteria { }
+export interface DbSelectOptions extends DbCriteria { }
 
-export class DbUpdateOptions {
+export interface DbUpdateOptions {
   [field: string]: any
   criteria?: DbCriteria
 }
 
-export class DbDeleteOptions extends DbCriteria { }
+export interface DbDeleteOptions extends DbCriteria { }
 
 export function getFieldsToUpdate(options: DbUpdateOptions): string[] {
   let fields = []
