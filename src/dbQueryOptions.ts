@@ -13,17 +13,11 @@ export interface DbCreateOptions {
   [field: string]: any
 }
 
-export interface DbReadOptions extends DbCriteria {
-  count?: boolean
-}
+export interface DbReadOptions extends DbCriteria {}
 
-export interface DbSelectOptions extends DbCriteria {
-  count?: boolean
-}
+export interface DbSelectOptions extends DbCriteria {}
 
-export interface DbFindOptions extends DbCriteria {
-  count?: boolean
-}
+export interface DbFindOptions extends DbCriteria {}
 
 export interface DbUpdateOptions {
   [field: string]: any
