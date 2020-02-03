@@ -1,11 +1,11 @@
 import { expect } from 'chai'
 import 'mocha'
-import { DbUpdateOptions, getFieldsToUpdate } from '../src/dbQueryOptions'
+import { DbUpdateParameter, getFieldsToUpdate } from '../src/dbQueryParameter'
 
 describe('SqlUpdateOptions', function() {
   describe('columns', function() {
     it('should list all fields', function() {
-      let options: DbUpdateOptions = {
+      let options: DbUpdateParameter = {
         a: 'a',
         b: 1
       }

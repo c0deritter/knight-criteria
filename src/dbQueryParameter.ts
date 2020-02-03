@@ -5,30 +5,30 @@ export interface DbCriteria {
   offset?: number
 }
 
-export interface DbInsertOptions {
+export interface DbInsertParameter {
   [field: string]: any
 }
 
-export interface DbCreateOptions {
+export interface DbCreateParameter {
   [field: string]: any
 }
 
-export interface DbReadOptions extends DbCriteria {}
+export interface DbReadParameter extends DbCriteria {}
 
-export interface DbSelectOptions extends DbCriteria {}
+export interface DbSelectParameter extends DbCriteria {}
 
-export interface DbFindOptions extends DbCriteria {}
+export interface DbFindParameter extends DbCriteria {}
 
-export interface DbUpdateOptions {
+export interface DbUpdateParameter {
   [field: string]: any
   criteria?: DbCriteria
 }
 
-export interface DbDeleteOptions extends DbCriteria {}
+export interface DbDeleteParameter extends DbCriteria {}
 
-export interface DbRemoveOptions extends DbCriteria {}
+export interface DbRemoveParameter extends DbCriteria {}
 
-export function getFieldsToUpdate(options: DbUpdateOptions): string[] {
+export function getFieldsToUpdate(options: DbUpdateParameter): string[] {
   let fields = []
 
   for (let prop in options) {
