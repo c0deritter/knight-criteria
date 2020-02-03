@@ -1,9 +1,9 @@
 {
   "name": "mega-nice-db-query-parameter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A mega nice data structure to describe database queries.",
-  "main": "lib/dbQueryOptions.js",
-  "types": "lib/dbQueryOptions.d.ts",
+  "main": "lib/dbQueryParameter.js",
+  "types": "lib/dbQueryParameter.d.ts",
   "files": [
     "lib/**/*"
   ],

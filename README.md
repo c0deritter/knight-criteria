@@ -1,14 +1,14 @@
-# Mega Nice DB Query Options
+# Mega Nice DB Query Parameter
 
 A database independent way to describe queries for inserting, selecting, updating and deleting. This data structure can be used as a foundation for any SQL database, for any NoSQL database or for any other data store.
 
 ## Install
 
-`npm install mega-nice-db-query-options`
+`npm install mega-nice-db-query-parameter`
 
 ## Overview
 
-### DbCriteria, DbSelectOptions, DbDeleteOptions
+### DbCriteria, DbSelectParameter, DbDeleteParameter
 
 The class `DbCriteria` describes what in SQL is a WHERE query. Both the `DbSelectOptions` and `DbDeleteOptions` are just an empty subclass of `DbCriteria` which do add nothing. Thus the following example is valid for both of them as well.
 
