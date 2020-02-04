@@ -28,15 +28,19 @@ export interface DbDeleteParameter extends DbCriteria {}
 
 export interface DbRemoveParameter extends DbCriteria {}
 
-export function getFieldsToUpdate(options: DbUpdateParameter): string[] {
+export function getFieldsToUpdate(parameter?: DbUpdateParameter): string[] {
+  if (! parameter) {
+    return []
+  }
+  
   let fields = []
 
-  for (let prop in options) {
+  for (let prop in parameter) {
     if (prop == 'criteria') {
       continue
     }
 
-    if (Object.prototype.hasOwnProperty.call(options, prop)) {
+    if (Object.prototype.hasOwnProperty.call(parameter, prop)) {
       fields.push(prop)
     }
   }
