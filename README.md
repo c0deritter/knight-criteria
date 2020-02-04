@@ -10,7 +10,7 @@ A database independent way to describe queries for inserting, selecting, updatin
 
 ### DbCriteria, DbSelectParameter, DbDeleteParameter
 
-The class `DbCriteria` describes what in SQL is a WHERE query. Both the `DbSelectOptions` and `DbDeleteOptions` are just an empty subclass of `DbCriteria` which do add nothing. Thus the following example is valid for both of them as well.
+The class `DbCriteria` describes what in SQL is a WHERE query. Both the `DbSelectParameter` and `DbDeleteParameter` are just an empty subclass of `DbCriteria` which do add nothing. Thus the following example is valid for both of them as well.
 
 ```typescript
 import { DbCriteria } from 'mega-nice-db-query-options'
