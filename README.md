@@ -13,13 +13,13 @@ A database independent way to describe queries for inserting, selecting, updatin
 The class `DbCriteria` describes what in SQL is a WHERE query. Both the `DbSelectParameter` and `DbDeleteParameter` are just an empty subclass of `DbCriteria` which do add nothing. Thus the following example is valid for both of them as well.
 
 ```typescript
-import { DbCriteria } from 'mega-nice-db-query-options'
+import { DbCriteria } from 'mega-nice-db-query-parameter'
 
-let options: DbCriteria = {
+let criteria: DbCriteria = {
   id: 1,
   name: { operator: 'LIKE', value: '%ert%' },
   job: ['student', 'teacher' ],
-  age: [{ operator: '>', value: 20 }, { operator: '<', 30 }]
+  age: [{ operator: '>', value: 20 }, { operator: '<', value: 30 }]
 }  
 ```
 
@@ -29,10 +29,10 @@ Describes a query looking like this in SQL.
 ... WHERE id = 1 AND name LIKE '%ert%' AND job IN ('student', 'teacher') AND age > 20 AND age < 30
 ```
 
-### DbInsertOptions
+### DbInsertParameter
 
 ```typescript
-let options: DbInsertOptions = {
+let parameter: DbInsertParameter = {
   name: 'Josa',
   job: 'Tree cutter',
   age: 36
@@ -45,17 +45,17 @@ Describes a query looking like this in SQL.
 INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
 ```
 
-### DbUpdateOptions
+### DbUpdateParameter
 
 ```typescript
-let options = new DbUpdateOptions({
+let parameter: DbUpdateParameter = {
   name: 'Josa',
   job: 'Tree cutter',
   age: 36,
   criteria: {
     id: 4
   }
-})
+}
 ```
 
 Describes a query looking like this in SQL.
