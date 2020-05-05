@@ -32,6 +32,8 @@ Describes a query looking like this in SQL.
 ### DbInsertParameter
 
 ```typescript
+import { DbInsertParameter } from 'mega-nice-db-query-parameter'
+
 let parameter: DbInsertParameter = {
   name: 'Josa',
   job: 'Tree cutter',
@@ -48,6 +50,8 @@ INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
 ### DbUpdateParameter
 
 ```typescript
+import { DbUpdateParameter } from 'mega-nice-db-query-parameter'
+
 let parameter: DbUpdateParameter = {
   name: 'Josa',
   job: 'Tree cutter',
@@ -62,4 +66,24 @@ Describes a query looking like this in SQL.
 
 ```
 UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
+```
+
+#### getFieldsToUpdate
+
+The function `getFieldsToUpdate` can be used to find out which fields are to be updated, basically collecting any property of the object while ignoring the `criteria` property.
+
+```typescript
+import { DbUpdateParameter, getFieldsToUpdate } from 'mega-nice-db-query-parameter'
+
+let parameter: DbUpdateParameter = {
+  name: 'Josa',
+  job: 'Tree cutter',
+  age: 36,
+  criteria: {
+    id: 4
+  }
+}
+
+let fieldsToUpdate = getFieldsToUpdate(parameter)
+fieldsToUpdate == [ 'name', 'job', 'age' ]
 ```
