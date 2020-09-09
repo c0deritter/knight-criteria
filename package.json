@@ -1,7 +1,7 @@
 {
-  "name": "mega-nice-db-query-parameter",
-  "version": "1.0.2",
-  "description": "A mega nice data structure to describe database queries.",
+  "name": "mega-nice-db-criteria",
+  "version": "2.0.0",
+  "description": "A mega nice data structure to describe database query criteria.",
   "main": "lib/dbQueryParameter.js",
   "types": "lib/dbQueryParameter.d.ts",
   "files": [
