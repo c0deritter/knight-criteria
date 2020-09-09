@@ -9,12 +9,12 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "@types/chai": "^4.2.7",
+    "@types/chai": "^4.2.12",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
-    "mocha": "^6.2.2",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
+    "mocha": "^6.2.3",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c0deritter/mega-nice-db-query-options.git"
+    "url": "git+https://github.com/c0deritter/mega-nice-db-criteria.git"
   },
   "keywords": [
     ""
   ],
   "author": "Coderitter GmbH",
   "bugs": {
-    "url": "https://github.com/c0deritter/mega-nice-db-query-options/issues"
+    "url": "https://github.com/c0deritter/mega-nice-db-criteria/issues"
   },
-  "homepage": "https://github.com/c0deritter/mega-nice-db-query-options#readme"
+  "homepage": "https://github.com/c0deritter/mega-nice-db-criteria#readme"
 }
