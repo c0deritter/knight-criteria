@@ -2,8 +2,8 @@ export interface DbCriteria {
   [field: string]: 
     any | // a value
     [] | // an array of values
-    { operator: string, value: ( any | [] )} | // an operator value pair
-    { operator: string, value: ( any | [] )}[] | // an array of operator value pairs
+    OperatorValue | // an operator value pair
+    OperatorValue[] | // an array of operator value pairs
     { [ field: string ]: DbCriteria } // a field which contains DbCriteria this referencing another entity
 }
 
@@ -57,6 +57,29 @@ export function getPropertiesToUpdate(criteria?: DbUpdateCriteria): string[] {
 
 export function getFieldsToUpdate(criteria?: DbUpdateCriteria): string[] {
   return getColumnsToUpdate(criteria)
+}
+
+export interface OperatorValue {
+  operator: string
+  value: any|[]
+}
+
+export function isOperatorValue(value: any): boolean {
+  if (typeof value == 'object' && value !== null) {
+    let propertyCount = Object.keys(value).length 
+
+    if (propertyCount == 1 && value.value !== undefined) {
+      return true
+    }
+
+    if (propertyCount == 2 && value.value !== undefined && value.operator !== undefined) {
+      return true
+    }
+
+    return false
+  }
+
+  return false
 }
 
 export enum OrderDirection {

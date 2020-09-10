@@ -1,6 +1,6 @@
 {
   "name": "mega-nice-db-criteria",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "A mega nice data structure to describe database query criteria.",
   "main": "lib/criteria.js",
   "types": "lib/criteria.d.ts",
