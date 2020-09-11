@@ -1,33 +1,35 @@
-# Mega Nice DB Criteria
+# Mega Nice Criteria
 
-A database independent way to describe queries for inserting, selecting, updating and deleting. This data structure can be used as a foundation for any SQL database, for any NoSQL database or for any other data store.
+Simple data structures to describe criteria for CRUD operations and which can be easily serialized for example to JSON.
 
 ## Install
 
-`npm install mega-nice-db-criteria`
+`npm install mega-nice-criteria`
 
 ## Overview
 
-### DbReadCriteria, DbSelectCriteria, DbFindCriteria
-
-Use on of the classes `DbReadParameter` / `DbSelectCriteria` / `DbFindCriteria` to define a criteria for a read / select / find. All of them describe exactly the same. Use the one that fits your terminology most.
+### ReadCriteria
 
 ```typescript
-import { DbReadCriteria } from 'mega-nice-db-criteria'
+import { ReadCriteria } from 'mega-nice-criteria'
 
-let criteria: DbCriteriaCriteria = {
+let criteria: ReadCriteria = {
   id: 1,
   name: { operator: 'LIKE', value: '%ert%' },
   job: [ 'student', 'teacher' ],
   age: [{ operator: '>', value: 20 }, { operator: '<', value: 30 }],
   limit: 10,
   offset: 5,
+  // order by one field
   orderBy: 'job',
+  // ordery by mulitpe fields
   orderBy: [ 'job', 'age' ],
+  // order by one field and specify the direction explicitly
   orderBy: {
     field: 'job',
     direction: 'DESC'
   },
+  // order by multiple fields and specify their directions explicitly
   orderBy: [
     {
       field: 'job',
@@ -47,12 +49,12 @@ Describes a query looking like this in SQL.
 ... WHERE id = 1 AND name LIKE '%ert%' AND job IN ('student', 'teacher') AND age > 20 AND age < 30
 ```
 
-### DbInsertCriteria
+### InsertCriteria
 
 ```typescript
-import { DbInsertCriteria } from 'mega-nice-db-criteria'
+import { InsertCriteria } from 'mega-nice-criteria'
 
-let criteria: DbInsertCriteria = {
+let criteria: InsertCriteria = {
   name: 'Josa',
   job: 'Tree cutter',
   age: 36
@@ -65,17 +67,17 @@ Describes a query looking like this in SQL.
 INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
 ```
 
-### DbUpdateCriteria
+### UpdateCriteria
 
 ```typescript
-import { DbUpdateCriteria } from 'mega-nice-db-criteria'
+import { UpdateCriteria } from 'mega-nice-criteria'
 
-let criteria: DbUpdateCriteria = {
-  name: 'Josa',
-  job: 'Tree cutter',
-  age: 36,
-  criteria: {
-    id: 4
+let criteria: UpdateCriteria = {
+  id: 4,
+  set: {
+    name: 'Josa',
+    job: 'Tree cutter',
+    age: 36
   }
 }
 ```
@@ -86,24 +88,18 @@ Describes a query looking like this in SQL.
 UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
 ```
 
-### DbDeleteCriteria
-
-#### getColumnsToUpdate / getPropertiesToUpdate / getFieldsToUpdate
-
-The functions `getColumnsToUpdate` / `getColumnsToUpdate` / `getFieldsToUpdate` can be used to find out which columns / properties / fields are to be updated, basically collecting any property of the object while ignoring the `criteria` property. All of them do exactly the same. Choose one that fits in your terminology most.
+### DeleteCriteria
 
 ```typescript
-import { DbUpdateCriteria, getColumnsToUpdate } from 'mega-nice-db-criteria'
+import { DeleteCriteria } from 'mega-nice-criteria'
 
-let criteria: DbUpdateCriteria = {
-  name: 'Josa',
-  job: 'Tree cutter',
-  age: 36,
-  criteria: {
-    id: 4
-  }
+let criteria: DeleteCriteria = {
+  id: 4
 }
+```
 
-let columnsToUpdate = getColumnsToUpdate(parameter)
-columnsToUpdate == [ 'name', 'job', 'age' ]
+Describes a query looking like this in SQL.
+
+```
+DELETE FROM table WHERE id = 4
 ```

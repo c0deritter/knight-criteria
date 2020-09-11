@@ -1,7 +1,7 @@
 {
-  "name": "mega-nice-db-criteria",
-  "version": "2.1.0",
-  "description": "A mega nice data structure to describe database query criteria.",
+  "name": "mega-nice-criteria",
+  "version": "3.0.0",
+  "description": "A mega nice data structure to describe criteria for CRUD operations.",
   "main": "lib/criteria.js",
   "types": "lib/criteria.d.ts",
   "files": [
@@ -17,19 +17,19 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha -r ts-node/register \"test/**/*.test.ts\"",
     "build": "rm -rf lib && tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c0deritter/mega-nice-db-criteria.git"
+    "url": "git+https://github.com/c0deritter/mega-nice-criteria.git"
   },
   "keywords": [
     ""
   ],
   "author": "Coderitter GmbH",
   "bugs": {
-    "url": "https://github.com/c0deritter/mega-nice-db-criteria/issues"
+    "url": "https://github.com/c0deritter/mega-nice-criteria/issues"
   },
-  "homepage": "https://github.com/c0deritter/mega-nice-db-criteria#readme"
+  "homepage": "https://github.com/c0deritter/mega-nice-criteria#readme"
 }

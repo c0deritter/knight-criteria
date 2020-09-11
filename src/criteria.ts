@@ -1,70 +1,36 @@
-export interface DbCriteria {
-  [field: string]: 
+export interface Criteria {
+  [ field: string ]: 
     any | // a value
     [] | // an array of values
-    OperatorValue | // an operator value pair
-    OperatorValue[] | // an array of operator value pairs
-    { [ field: string ]: DbCriteria } // a field which contains DbCriteria this referencing another entity
+    OperatorAndValue | // an operator value pair
+    OperatorAndValue[] | // an array of operator value pairs
+    {[ field: string ]: Criteria } // a field which contains Criteria and thus is referencing another entity
 }
 
-export interface DbInsertCriteria {
+export interface CreateCriteria {
   [ field: string ]: any
 }
 
-export interface DbCreateCriteria {
-  [ field: string ]: any
-}
-
-export interface DbReadCriteria extends DbCriteria {
+export interface ReadCriteria extends Criteria {
   orderBy?: string | string[] | { field: string, direction?: OrderDirection } | { field: string, direction?: OrderDirection }[]
   limit?: number
   offset?: number
 }
 
-export interface DbSelectCriteria extends DbCriteria {
-  orderBy?: string | string[] | { field: string, direction?: OrderDirection } | { field: string, direction?: OrderDirection }[]
-  limit?: number
-  offset?: number
-}
-
-export interface DbFindCriteria extends DbCriteria {
-  orderBy?: string | string[] | { field: string, direction?: OrderDirection } | { field: string, direction?: OrderDirection }[]
-  limit?: number
-  offset?: number
-}
-
-export interface DbUpdateCriteria extends DbCriteria {
+export interface UpdateCriteria extends Criteria {
   set: {
     [ field: string ]: any
   }
 }
 
-export interface DbDeleteCriteria extends DbCriteria {}
+export interface DeleteCriteria extends Criteria {}
 
-export interface DbRemoveCriteria extends DbCriteria {}
-
-export function getColumnsToUpdate(criteria?: DbUpdateCriteria): string[] {
-  if (criteria == undefined || criteria.set == undefined) {
-    return []
-  }
-
-  return Object.keys(criteria.set)
-}
-
-export function getPropertiesToUpdate(criteria?: DbUpdateCriteria): string[] {
-  return getColumnsToUpdate(criteria)
-}
-
-export function getFieldsToUpdate(criteria?: DbUpdateCriteria): string[] {
-  return getColumnsToUpdate(criteria)
-}
-
-export interface OperatorValue {
+export interface OperatorAndValue {
   operator: string
   value: any|[]
 }
 
-export function isOperatorValue(value: any): boolean {
+export function isOperatorAndValue(value: any): boolean {
   if (typeof value == 'object' && value !== null) {
     let propertyCount = Object.keys(value).length 
 
