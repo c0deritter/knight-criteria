@@ -1,6 +1,6 @@
 {
   "name": "mega-nice-criteria",
-  "version": "3.0.0",
+  "version": "4.0.1",
   "description": "A mega nice data structure to describe criteria for CRUD operations.",
   "main": "lib/criteria.js",
   "types": "lib/criteria.d.ts",
