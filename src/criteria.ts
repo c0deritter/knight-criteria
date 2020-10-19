@@ -1,5 +1,5 @@
 export interface BaseCriteria<ThisType> {
-  [ field: string ]: 
+  [ field: string ]:
     any | // a value
     [] | // an array of values
     OperatorAndValue | // an operator value pair
@@ -13,14 +13,42 @@ export interface CreateCriteria {
   [ field: string ]: any
 }
 
-export interface ReadCriteria extends BaseCriteria<ReadCriteria> {
-  orderBy?: string | string[] | { field: string, direction?: OrderDirection } | { field: string, direction?: OrderDirection }[]
-  limit?: number
-  offset?: number
+export interface RelationshipReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
+  '@filterGlobally'?: boolean
+  '@doNotLoad'?: boolean
+
+  '@orderBy'?: 
+    string |
+    string[] |
+    {
+      field: string,
+      direction?: OrderDirection
+    } |
+    {
+      field: string,
+      direction?: OrderDirection
+    }[]
+}
+
+export interface ReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
+  '@orderBy'?:
+    string |
+    string[] |
+    {
+      field: string,
+      direction?: OrderDirection
+    } |
+    {
+      field: string,
+      direction?: OrderDirection
+    }[]
+    
+  '@limit'?: number
+  '@offset'?: number
 }
 
 export interface UpdateCriteria extends Criteria {
-  set: { [ field: string ]: any }
+  '@set': { [ field: string ]: any }
 }
 
 export interface DeleteCriteria extends Criteria {}
