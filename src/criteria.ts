@@ -16,6 +16,7 @@ export interface CreateCriteria {
 export interface RelationshipReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
   '@filterGlobally'?: boolean
   '@doNotLoad'?: boolean
+  '@count'?: number
 
   '@orderBy'?: 
     string |
