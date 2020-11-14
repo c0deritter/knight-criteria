@@ -7,7 +7,10 @@ export interface BaseCriteria<ThisType> {
     { [ field: string ]: ThisType } // a field which contains Criteria and thus is referencing another entity
 }
 
-export interface Criteria extends BaseCriteria<Criteria> {}
+export interface Criteria extends BaseCriteria<Criteria> {
+  '@not'?: number
+  '@count'?: number
+}
 
 export interface CreateCriteria {
   [ field: string ]: any
@@ -16,7 +19,6 @@ export interface CreateCriteria {
 export interface RelationshipReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
   '@filterGlobally'?: boolean
   '@doNotLoad'?: boolean
-  '@count'?: number
 
   '@orderBy'?: 
     string |
