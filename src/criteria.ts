@@ -8,7 +8,7 @@ export interface BaseCriteria<ThisType> {
 }
 
 export interface Criteria extends BaseCriteria<Criteria> {
-  '@not'?: number
+  '@not'?: boolean
   '@count'?: number
 }
 
