@@ -1,10 +1,10 @@
-export interface BaseCriteria<ThisType> {
+export interface BaseCriteria<RelationshipType> {
   [ field: string ]:
     any | // a value
     [] | // an array of values
     OperatorAndValue | // an operator value pair
     OperatorAndValue[] | // an array of operator value pairs
-    { [ field: string ]: ThisType } // a field which contains Criteria and thus is referencing another entity
+    { [ field: string ]: RelationshipType } // a field which contains Criteria and thus is referencing another entity
 }
 
 export interface Criteria extends BaseCriteria<Criteria> {
