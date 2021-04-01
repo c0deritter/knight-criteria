@@ -149,6 +149,15 @@ enum Operator {
 }
 ```
 
+## Criteria
+
+```typescript
+interface Criteria extends BaseCriteria<Criteria> {
+  '@not'?: boolean
+  '@count'?: number
+}
+```
+
 ## Tools
 
 ```typescript
