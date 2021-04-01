@@ -151,7 +151,7 @@ enum Operator {
 }
 ```
 
-## Criteria
+### Criteria
 
 ```typescript
 interface Criteria extends BaseCriteria<Criteria> {
