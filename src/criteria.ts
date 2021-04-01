@@ -57,7 +57,7 @@ export interface UpdateCriteria extends Criteria {
 export interface DeleteCriteria extends Criteria {}
 
 export interface OperatorAndValue {
-  operator: string
+  operator: Operator
   value: any | [] // a value or an array of values
 }
 
@@ -79,6 +79,10 @@ export function isOperatorAndValue(value: any): boolean {
   return false
 }
 
+export enum Operator {
+  '=', '==', '!=', '<>', '>', '>=', '<', '<='
+}
+
 export enum OrderDirection {
-  ASC, DESC
+  'asc', 'desc'
 }

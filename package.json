@@ -1,13 +1,12 @@
 {
-  "name": "mega-nice-criteria",
-  "version": "5.3.1",
-  "description": "A mega nice data structure to describe criteria for CRUD operations.",
+  "name": "knight-criteria",
+  "version": "1.0.0",
+  "description": "A data structure to describe criteria for CRUD operations on a data store.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^5.2.7",
@@ -22,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c0deritter/mega-nice-criteria.git"
+    "url": "git+https://github.com/c0deritter/knight-criteria.git"
   },
   "keywords": [
     ""
   ],
   "author": "Coderitter GmbH",
   "bugs": {
-    "url": "https://github.com/c0deritter/mega-nice-criteria/issues"
+    "url": "https://github.com/c0deritter/knight-criteria/issues"
   },
-  "homepage": "https://github.com/c0deritter/mega-nice-criteria#readme"
+  "homepage": "https://github.com/c0deritter/knight-criteria#readme"
 }
