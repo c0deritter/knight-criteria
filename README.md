@@ -65,11 +65,13 @@ let criteria: ReadCriteria = {
 
   // order by multiple fields in ascending direction
   '@orderBy': [ 'job', 'age' ],
+  
   // order by one field and specify the direction explicitly
   orderBy: {
     field: 'job',
     direction: 'asc'
   },
+
   // order by multiple fields and specify their directions explicitly
   orderBy: [
     {
