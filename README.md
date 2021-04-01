@@ -2,13 +2,19 @@
 
 A data structures to describe criteria for CRUD operations on a data store. They can be easily serialized to JSON.
 
+## Related libraries
+
+You can use [knight-sql-criteria-filler](https://github.com/c0deritter/knight-sql-criteria-filler) to fill a [knight-sql](https://github.com/c0deritter/knight-sql) query which can be transformed into a SQL string. [knight-orm](https://github.com/c0deritter/knight-orm) is a more complete solution which also considers the mapping of object properties to database columns and is also capable of handling relationships between tables.
+
+If you just want to match plain JavaScript objects against criteria you can use [knight-criteria-matcher](https://github.com/c0deritter/knight-criteria-matcher). There is also an in-memory object database [knight-object-db](https://github.com/c0deritter/knight-object-db) which uses criteria for queries.
+
 ## Install
 
 `npm install knight-criteria`
 
 ## Overview
 
-There criteria für creating (`CreateCriteria`), reading (`ReadCriteria`), updating (`UpdateCriteria`) and deleting (`DeleteCriteria`) entities from a data store.
+There are criteria for creating (`CreateCriteria`), reading (`ReadCriteria`), updating (`UpdateCriteria`) and deleting (`DeleteCriteria`) entities from a data store.
 
 All of them base on `BaseCriteria` which you can use to define new criteria interfaces and there is also a generic general purpose criteria interface `Criteria`.
 
@@ -119,4 +125,25 @@ Describes a query looking like this in SQL.
 
 ```
 DELETE FROM table WHERE id = 4
+```
+
+### BaseCriteria
+
+```typescript
+export interface BaseCriteria<RelationshipType> {
+  [ field: string ]:
+    any | // a value
+    [] | // an array of values
+    OperatorAndValue | // an operator value pair
+    OperatorAndValue[] | // an array of operator value pairs
+    { [ field: string ]: RelationshipType } // a field which contains Criteria and thus is referencing another entity
+}
+```
+
+## Tools
+
+```typescript
+isCriteriaEmpty({}) == true
+isCriteriaEmpty({ name: 'Josa' }) == false
+isCriteriaEmpty({ '@limit': 10 }) == true
 ```
