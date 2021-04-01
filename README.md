@@ -2,7 +2,7 @@
 
 A data structures to describe criteria for CRUD operations on a data store. They can be easily serialized to JSON.
 
-## Related libraries
+## Related packages
 
 You can use [knight-sql-criteria-filler](https://github.com/c0deritter/knight-sql-criteria-filler) to fill a [knight-sql](https://github.com/c0deritter/knight-sql) query which can be transformed into a SQL string. [knight-orm](https://github.com/c0deritter/knight-orm) is a more complete solution which also considers the mapping of object properties to database columns and is also capable of handling relationships between tables.
 
