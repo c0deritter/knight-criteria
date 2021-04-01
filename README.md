@@ -130,7 +130,7 @@ DELETE FROM table WHERE id = 4
 ### BaseCriteria
 
 ```typescript
-export interface BaseCriteria<RelationshipType> {
+interface BaseCriteria<RelationshipType> {
   [ field: string ]:
     any | // a value
     [] | // an array of values
