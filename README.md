@@ -138,6 +138,15 @@ interface BaseCriteria<RelationshipType> {
     OperatorAndValue[] | // an array of operator value pairs
     { [ field: string ]: RelationshipType } // a field which contains Criteria and thus is referencing another entity
 }
+
+interface OperatorAndValue {
+  operator: Operator
+  value: any | [] // a value or an array of values
+}
+
+enum Operator {
+  '=', '==', '!=', '<>', '>', '>=', '<', '<='
+}
 ```
 
 ## Tools
