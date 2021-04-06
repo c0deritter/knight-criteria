@@ -1,6 +1,6 @@
 # Knight Criteria by Coderitter
 
-A data structures to describe criteria for CRUD operations on a data store. They can be easily serialized to JSON.
+A data structures to describe criteria for CRUD operations on a data store. They can be serialized to JSON and thus are fitting for API calls.
 
 ## Related packages
 
