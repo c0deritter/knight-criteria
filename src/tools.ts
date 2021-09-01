@@ -1,6 +1,6 @@
-import { CreateCriteria, Criteria, DeleteCriteria, ReadCriteria, UpdateCriteria } from './criteria'
+import { CriteriaObject } from './criteria'
 
-export function isCriteriaEmpty(criteria: Criteria|CreateCriteria|ReadCriteria|UpdateCriteria|DeleteCriteria) {
+export function isCriteriaEmpty(criteria: CriteriaObject) {
   for (let property of Object.keys(criteria)) {
     if (property[0] !== '@') {
       return false

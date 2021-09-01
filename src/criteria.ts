@@ -1,70 +1,59 @@
-export interface BaseCriteria<RelationshipType> {
-  [ field: string ]:
-    any | // a value
-    [] | // an array of values
-    OperatorAndValue | // an operator value pair
-    OperatorAndValue[] | // an array of operator value pairs
-    { [ field: string ]: RelationshipType } // a field which contains Criteria and thus is referencing another entity
-}
+export type Criteria = CriteriaObject | (CriteriaObject | 'AND' | 'OR' | 'XOR')[]
 
-export interface Criteria extends BaseCriteria<Criteria> {
+export interface CriteriaObject {
   '@not'?: boolean
   '@count'?: number
-}
+  '@load'?: boolean
+  '@loadWithNewQuery'?: boolean
 
-export interface CreateCriteria {
-  [ field: string ]: any
-}
+  [field: string]:
+    // a value
+    any |
 
-export interface RelationshipReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
-  '@filterGlobally'?: boolean
-  '@doNotLoad'?: boolean
+    // an array of values
+    [] |
 
-  '@orderBy'?: 
-    string |
-    string[] |
-    {
-      field: string,
-      direction?: OrderDirection
-    } |
-    {
-      field: string,
-      direction?: OrderDirection
-    }[]
-}
+    // an operator value object
+    OperatorAndValue |
 
-export interface ReadCriteria extends BaseCriteria<RelationshipReadCriteria> {
+    // an array of operator value objects combined with logical operators
+    (OperatorAndValue | 'AND' | 'OR' | 'XOR')[] |
+
+    // a relationship
+    CriteriaObject
+
   '@orderBy'?:
-    string |
-    string[] |
-    {
-      field: string,
-      direction?: OrderDirection
-    } |
-    {
-      field: string,
-      direction?: OrderDirection
-    }[]
-    
+  string |
+  string[] |
+  { field: string, direction?: OrderDirection } |
+  { field: string, direction?: OrderDirection }[]
+
   '@limit'?: number
   '@offset'?: number
 }
 
-export interface UpdateCriteria extends Criteria {
-  '@set': { [ field: string ]: any }
-}
-
-export interface DeleteCriteria extends Criteria {}
-
 export interface OperatorAndValue {
   operator: Operator
-  value: any | [] // a value or an array of values
+  value?: any | [] // a value or an array of values
 }
 
 export enum Operator {
-  '=', '==', '!=', '<>', '>', '>=', '<', '<='
+  '=' = '=',
+  '==' = '==',
+  '!=' = '!=',
+  '<>' = '<>',
+  '>' = '>',
+  '>=' = '>=',
+  '<' = '<',
+  '<=' = '<=',
+  'LIKE' = 'LIKE',
+  'NOT LIKE' = 'NOT LIKE',
+  'IN' = 'IN',
+  'MAX' = 'MAX',
+  'MIN' = 'MIN'
 }
 
 export enum OrderDirection {
-  'asc', 'desc'
+  'ASC' = 'ASC',
+  'DESC' = 'DESC',
 }

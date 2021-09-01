@@ -1,6 +1,6 @@
 # Knight Criteria by Coderitter
 
-A data structures to describe criteria for CRUD operations on a data store. They can be serialized to JSON and thus are fitting for API calls.
+A data structure to describe criteria for operations on a data store. They can be serialized to JSON and thus are fitting for API calls.
 
 ## Related packages
 
@@ -14,51 +14,55 @@ If you just want to match plain JavaScript objects against criteria you can use 
 
 ## Overview
 
-There are criteria for creating (`CreateCriteria`), reading (`ReadCriteria`), updating (`UpdateCriteria`) and deleting (`DeleteCriteria`) entities from a data store.
-
-All of them base on `BaseCriteria` which you can use to define new criteria interfaces and there is also a generic general purpose criteria interface `Criteria`.
-
-### CreateCriteria
+Criteria work like this.
 
 ```typescript
-import { CreateCriteria } from 'knight-criteria'
+import { Criteria } from 'knight-criteria'
 
-let criteria: CreateCriteria = {
-  name: 'Josa',
-  job: 'Tree cutter',
-  age: 36
+let criteria: Criteria = {
+  name: 'Josa'
 }
 ```
 
-Describes a query looking like this in SQL.
+Which result in an SQL query looking like this.
 
-```
-INSERT INTO table (name, job, age) VALUES ('Josa', 'Tree cutter', 36)
+```sql
+SELECT * FROM person WHERE name = 'Josa`
 ```
 
-### ReadCriteria
+### Criteria object
+
+Here is an overview of what you can do with a criteria object.
 
 ```typescript
-import { ReadCriteria } from 'knight-criteria'
+import { Criteria } from 'knight-criteria'
 
-let criteria: ReadCriteria = {
-  // use a simple value which will default to the operator `=`
+let criteria: Criteria = {
+  // a simple value which will default to the operator =
+  // WHERE id = 1
   id: 1,
 
-  // use a simple value and explicitely define an operator
+  // explicitely define an operator
+  // =, ==, !=, <>, >, >=, <, <=, LIKE, NOT LIKE, IN
+  // WHERE name LIKE '%ert%'
   name: { operator: 'LIKE', value: '%ert%' },
 
-  // use an array of simple values which will equals to a SQL IN operator
+  // you can also use MIN or MAX as operator
+  // WHERE age = (SELECT MAX(age) FROM person WHERE name LIKE '%ert%')
+  // the where clause will append all criteria of the same object apart from other MIN or MAX
+  age: { operator: 'MAX' },
+
+  // use an array of values which will equal to an SQL IN operator
+  // WHERE job IN ('student', 'teacher')
   job: [ 'student', 'teacher' ],
 
-  // use an array of simple values with explicitely defined operator which result them to be AND connected
-  age: [{ operator: '>', value: 20 }, { operator: '<', value: 30 }],
+  // use an array of explicitely defined operators which result them to be OR connected
+  // WHERE (age < 20 OR age > 30)
+  age: [{ operator: '<', value: 20 }, { operator: '>', value: 30 }],
 
-  // limit the number of results
-  '@limit': 10,
-
-  // offset the results
-  '@offset': 5,
+  // use an array of explicitely defined operators and explicitely define a connecting logical operator
+  // WHERE (age > 20 AND age < 30)
+  age: [{ operator: '>', value: 20 }, 'AND', { operator: '<', value: 30 }],
 
   // order by a particular field in ascending direction
   '@orderBy': 'job',
@@ -67,85 +71,94 @@ let criteria: ReadCriteria = {
   '@orderBy': [ 'job', 'age' ],
 
   // order by one field and specify the direction explicitly
-  '@orderBy': { field: 'job', direction: 'asc' },
+  '@orderBy': { field: 'job', direction: 'DESC' },
 
   // order by multiple fields and specify their directions explicitly
-  '@orderBy': [{ field: 'job', direction: 'asc' }, { field: 'age', direction: 'desc' }]
+  '@orderBy': [{ field: 'job', direction: 'DESC' }, { field: 'age', direction: 'DESC' }],
+
+  // limit the number of results
+  '@limit': 10,
+
+  // offset the results
+  '@offset': 5
 }  
 ```
 
-Describes a query looking like this in SQL.
+### Relationships
 
-```
-... WHERE id = 1 AND name LIKE '%ert%' AND job IN ('student', 'teacher') AND age > 20 AND age < 30
-```
-
-### UpdateCriteria
+You can also define criteria on relationships.
 
 ```typescript
-import { UpdateCriteria } from 'knight-criteria'
-
-let criteria: UpdateCriteria = {
-  id: 4,
-  '@set': {
-    name: 'Josa',
-    job: 'Tree cutter',
-    age: 36
+let criteria: Criteria = {
+  // only include people which have at least one email address from Google
+  emails: {
+    address: { operator: 'LIKE', value: '%@gmail.com' }
   }
-}
+
+  // only include people which have at least one email address from Google
+  // while also loading these emails
+  emails: {
+    '@load': true,
+    address: { operator: 'LIKE', value: '%@gmail.com' }
+  }  
+
+  // include all people and load any email
+  emails: { '@load': true }
 ```
 
-Describes a query looking like this in SQL.
+If the criteria is translated into an SQL query it will use a `JOIN` and look like this.
 
-```
-UPDATE table SET name = 'Josa', job = 'Tree cutter', age = '36' WHERE id = 4
+```sql
+SELECT * FROM person JOIN email ON person.id = email.person_id WHERE email.address LIKE '%@gmail.com'
 ```
 
-### DeleteCriteria
+You can also define relationship criteria which will only apply to the entities in the relationship itself but not to the entities owning the relationship.
 
 ```typescript
-import { DeleteCriteria } from 'knight-criteria'
-
-let criteria: DeleteCriteria = {
-  id: 4
-}
+  // include all people but load only emails which are from Google
+  emails: {
+    '@loadWithNewQuery': true,
+    address: { operator: 'LIKE', value: '%@gmail.com' }
+  }
 ```
 
-Describes a query looking like this in SQL.
+It results in two SQL queries being executed instead of one which uses a join.
 
-```
-DELETE FROM table WHERE id = 4
+```sql
+SELECT * FROM person
+SELECT * FROM email WHERE address LIKE '%@gmail.com'
 ```
 
-### BaseCriteria
+It has the effect that the criteria defined for the relationship `emails` are only applied to that relationship. It will not reduce the found persons if one does not own an email address fitting the given criteria.
+
+### Combine multiple criteria
+
+You can also combine multiple criteria objects with one of the logical operators `AND`, `OR` or `XOR`. If you do not state one of these operators between two criteria it will default to `OR`.
 
 ```typescript
-interface BaseCriteria<RelationshipType> {
-  [ field: string ]:
-    any | // a value
-    [] | // an array of values
-    OperatorAndValue | // an operator value pair
-    OperatorAndValue[] | // an array of operator value pairs
-    { [ field: string ]: RelationshipType } // a field which contains Criteria and thus is referencing another entity
-}
-
-interface OperatorAndValue {
-  operator: Operator
-  value: any | [] // a value or an array of values
-}
-
-enum Operator {
-  '=', '==', '!=', '<>', '>', '>=', '<', '<='
-}
+let criteria: Criteria = [
+  {
+    age: { operator: '>=', value: 20 },
+    emails: {
+      '@load': true,
+      address: { operator: 'LIKE', value: '%@icloud.com' }
+    }
+  },
+  'XOR',
+  {
+    age: { operator: '>=', value: 30 },
+    emails: {
+      '@load': true,
+      address: { operator: 'LIKE', value: '%@gmail.com' }
+    }
+  }
+]
 ```
 
-### Criteria
+Which will create an SQL query like this.
 
-```typescript
-interface Criteria extends BaseCriteria<Criteria> {
-  '@not'?: boolean
-  '@count'?: number
-}
+```sql
+SELECT * FROM person JOIN email ON person.id = email.person_id WHERE (age >= 20 AND email.address LIKE '%@icloud.com') XOR (age >= 30 AND email.address LIKE '%@gmail.com')
 ```
 
 ## Tools
