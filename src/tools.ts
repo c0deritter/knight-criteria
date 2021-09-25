@@ -10,20 +10,6 @@ export function isCriteriaEmpty(criteria: CriteriaObject) {
   return true
 }
 
-export function isOperatorAndValue(value: any): boolean {
-  if (typeof value == 'object' && value !== null) {
-    let propertyCount = Object.keys(value).length 
-
-    if (propertyCount == 1 && value.value !== undefined) {
-      return true
-    }
-
-    if (propertyCount == 2 && value.value !== undefined && value.operator !== undefined) {
-      return true
-    }
-
-    return false
-  }
-
-  return false
+export function isComparison(value: any): boolean {
+  return typeof value == 'object' && value !== null && value['@operator'] != undefined
 }

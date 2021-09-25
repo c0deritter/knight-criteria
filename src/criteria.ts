@@ -2,7 +2,6 @@ export type Criteria = CriteriaObject | (CriteriaObject | 'AND' | 'OR' | 'XOR')[
 
 export interface CriteriaObject {
   '@not'?: boolean
-  '@count'?: number
   '@load'?: boolean
   '@loadWithNewQuery'?: boolean
 
@@ -11,13 +10,13 @@ export interface CriteriaObject {
     any |
 
     // an array of values
-    [] |
+    any[] |
 
-    // an operator value object
-    OperatorAndValue |
+    // a comparison
+    Comparison |
 
-    // an array of operator value objects combined with logical operators
-    (OperatorAndValue | 'AND' | 'OR' | 'XOR')[] |
+    // an array of comparisons combined with logical operators
+    (Comparison | 'AND' | 'OR' | 'XOR')[] |
 
     // a relationship
     CriteriaObject
@@ -25,35 +24,35 @@ export interface CriteriaObject {
   '@orderBy'?:
   string |
   string[] |
-  { field: string, direction?: OrderDirection } |
-  { field: string, direction?: OrderDirection }[]
+  { '@field': string, '@direction'?: OrderDirection } |
+  { '@field': string, '@direction'?: OrderDirection }[]
 
   '@limit'?: number
   '@offset'?: number
 }
 
-export interface OperatorAndValue {
-  operator: Operator
-  value?: any | [] // a value or an array of values
+export interface Comparison {
+  '@not'?: boolean
+  '@operator': Operator
+  '@value'?: any | [] // a value or an array of values
 }
 
-export enum Operator {
-  '=' = '=',
-  '==' = '==',
-  '!=' = '!=',
-  '<>' = '<>',
-  '>' = '>',
-  '>=' = '>=',
-  '<' = '<',
-  '<=' = '<=',
-  'LIKE' = 'LIKE',
-  'NOT LIKE' = 'NOT LIKE',
-  'IN' = 'IN',
-  'MAX' = 'MAX',
-  'MIN' = 'MIN'
-}
+export type Operator =
+  '=' |
+  '!=' |
+  '<>' |
+  '>' |
+  '>=' |
+  '<' |
+  '<=' |
+  'LIKE' |
+  'NOT LIKE' |
+  'IN' |
+  'NOT IN' |
+  'MAX' |
+  'MIN' |
+  'COUNT'
 
-export enum OrderDirection {
-  'ASC' = 'ASC',
-  'DESC' = 'DESC',
-}
+export type OrderDirection =
+  'ASC' |
+  'DESC'

@@ -43,14 +43,15 @@ let criteria: Criteria = {
   id: 1,
 
   // explicitely define an operator
-  // =, ==, !=, <>, >, >=, <, <=, LIKE, NOT LIKE, IN
+  // =, ==, !=, <>, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT IN
   // WHERE name LIKE '%ert%'
-  name: { operator: 'LIKE', value: '%ert%' },
+  name: { '@operator': 'LIKE', '@value': '%ert%' },
 
   // you can also use MIN or MAX as operator
   // WHERE age = (SELECT MAX(age) FROM person WHERE name LIKE '%ert%')
   // the where clause will append all criteria of the same object apart from other MIN or MAX
-  age: { operator: 'MAX' },
+  age: { '@operator': 'MAX' },
+  age: { '@operator': 'MIN' },
 
   // use an array of values which will equal to an SQL IN operator
   // WHERE job IN ('student', 'teacher')
@@ -58,11 +59,11 @@ let criteria: Criteria = {
 
   // use an array of explicitely defined operators which result them to be OR connected
   // WHERE (age < 20 OR age > 30)
-  age: [{ operator: '<', value: 20 }, { operator: '>', value: 30 }],
+  age: [{ '@operator': '<', '@value': 20 }, { '@operator': '>', '@value': 30 }],
 
   // use an array of explicitely defined operators and explicitely define a connecting logical operator
   // WHERE (age > 20 AND age < 30)
-  age: [{ operator: '>', value: 20 }, 'AND', { operator: '<', value: 30 }],
+  age: [{ '@operator': '>', '@value': 20 }, 'AND', { '@operator': '<', '@value': 30 }],
 
   // order by a particular field in ascending direction
   '@orderBy': 'job',
@@ -92,14 +93,14 @@ You can also define criteria on relationships.
 let criteria: Criteria = {
   // only include people which have at least one email address from Google
   emails: {
-    address: { operator: 'LIKE', value: '%@gmail.com' }
+    address: { '@operator': 'LIKE', '@value': '%@gmail.com' }
   }
 
   // only include people which have at least one email address from Google
   // while also loading these emails
   emails: {
     '@load': true,
-    address: { operator: 'LIKE', value: '%@gmail.com' }
+    address: { '@operator': 'LIKE', '@value': '%@gmail.com' }
   }  
 
   // include all people and load any email
@@ -118,7 +119,7 @@ You can also define relationship criteria which will only apply to the entities 
   // include all people but load only emails which are from Google
   emails: {
     '@loadWithNewQuery': true,
-    address: { operator: 'LIKE', value: '%@gmail.com' }
+    address: { '@operator': 'LIKE', '@value': '%@gmail.com' }
   }
 ```
 
@@ -138,18 +139,18 @@ You can also combine multiple criteria objects with one of the logical operators
 ```typescript
 let criteria: Criteria = [
   {
-    age: { operator: '>=', value: 20 },
+    age: { '@operator': '>=', '@value': 20 },
     emails: {
       '@load': true,
-      address: { operator: 'LIKE', value: '%@icloud.com' }
+      address: { '@operator': 'LIKE', '@value': '%@icloud.com' }
     }
   },
   'XOR',
   {
-    age: { operator: '>=', value: 30 },
+    age: { '@operator': '>=', '@value': 30 },
     emails: {
       '@load': true,
-      address: { operator: 'LIKE', value: '%@gmail.com' }
+      address: { '@operator': 'LIKE', '@value': '%@gmail.com' }
     }
   }
 ]
