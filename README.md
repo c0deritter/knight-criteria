@@ -106,7 +106,7 @@ let criteria: Criteria = {
   emails: { '@load': true }
 ```
 
-If the criteria is translated into an SQL query it will use a `JOIN` and look like this.
+If the criteria is translated into an SQL query it will use a `JOIN` and looks like this.
 
 ```sql
 SELECT * FROM person JOIN email ON person.id = email.person_id WHERE email.address LIKE '%@gmail.com'
@@ -122,7 +122,7 @@ You can also define relationship criteria which will only apply to the entities 
   }
 ```
 
-It results in two SQL queries being executed instead of one which uses a join.
+It results in two SQL queries being executed instead of one which would use a join.
 
 ```sql
 SELECT * FROM person
