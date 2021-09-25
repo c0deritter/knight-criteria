@@ -22,10 +22,10 @@ export interface CriteriaObject {
     CriteriaObject
 
   '@orderBy'?:
-  string |
-  string[] |
-  { '@field': string, '@direction'?: OrderDirection } |
-  { '@field': string, '@direction'?: OrderDirection }[]
+    string |
+    string[] |
+    { field: string, direction?: OrderDirection } |
+    { field: string, direction?: OrderDirection }[]
 
   '@limit'?: number
   '@offset'?: number
@@ -37,22 +37,24 @@ export interface Comparison {
   '@value'?: any | [] // a value or an array of values
 }
 
-export type Operator =
-  '=' |
-  '!=' |
-  '<>' |
-  '>' |
-  '>=' |
-  '<' |
-  '<=' |
-  'LIKE' |
-  'NOT LIKE' |
-  'IN' |
-  'NOT IN' |
-  'MAX' |
-  'MIN' |
-  'COUNT'
+export enum Operator {
+  '=' = '=',
+  '!=' = '!=',
+  '<>' = '<>',
+  '>' = '>',
+  '>=' = '>=',
+  '<' = '<',
+  '<=' = '<=',
+  'LIKE' = 'LIKE',
+  'NOT LIKE' = 'NOT LIKE',
+  'IN' = 'IN',
+  'NOT IN' = 'NOT IN',
+  'MAX' = 'MAX',
+  'MIN' = 'MIN',
+  'COUNT' = 'COUNT'
+}
 
-export type OrderDirection =
-  'ASC' |
-  'DESC'
+export enum OrderDirection {
+  'ASC' = 'ASC',
+  'DESC' = 'DESC'
+}
