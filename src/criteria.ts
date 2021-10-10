@@ -1,9 +1,9 @@
-export type Criteria = CriteriaObject | (CriteriaObject | 'AND' | 'OR' | 'XOR')[]
+export type Criteria = CriteriaObject | (Criteria | 'AND' | 'OR' | 'XOR')[]
 
 export interface CriteriaObject {
   '@not'?: boolean
   '@load'?: boolean
-  '@loadWithNewQuery'?: boolean
+  '@loadSeparately'?: boolean
 
   [field: string]:
     // a value

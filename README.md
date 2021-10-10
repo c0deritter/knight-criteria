@@ -118,7 +118,7 @@ You can also define relationship criteria which will only apply to the entities 
 ```typescript
   // include all people but load only emails which are from Google
   emails: {
-    '@loadWithNewQuery': true,
+    '@loadSeparately': true,
     address: { '@operator': 'LIKE', '@value': '%@gmail.com' }
   }
 ```
