@@ -24,8 +24,8 @@ export interface CriteriaObject {
   '@orderBy'?:
     string |
     string[] |
-    { field: string, direction?: OrderDirection } |
-    { field: string, direction?: OrderDirection }[]
+    { field: string, direction?: string|OrderDirection } |
+    { field: string, direction?: string|OrderDirection }[]
 
   '@limit'?: number
   '@offset'?: number
@@ -33,7 +33,7 @@ export interface CriteriaObject {
 
 export interface Comparison {
   '@not'?: boolean
-  '@operator': Operator
+  '@operator': string|Operator
   '@value'?: any | [] // a value or an array of values
 }
 

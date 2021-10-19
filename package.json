@@ -1,6 +1,6 @@
 {
   "name": "knight-criteria",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A data structure to describe criteria for CRUD operations on a data store",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
