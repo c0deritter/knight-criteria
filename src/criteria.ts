@@ -4,6 +4,7 @@ export interface CriteriaObject {
   '@not'?: boolean
   '@load'?: boolean
   '@loadSeparately'?: boolean
+  '@count': number|Comparison
 
   [field: string]:
     // a value
@@ -23,9 +24,8 @@ export interface CriteriaObject {
 
   '@orderBy'?:
     string |
-    string[] |
-    { field: string, direction?: string|OrderDirection } |
-    { field: string, direction?: string|OrderDirection }[]
+    OrderBy |
+    (string | OrderBy)[]
 
   '@limit'?: number
   '@offset'?: number
@@ -35,6 +35,11 @@ export interface Comparison {
   '@not'?: boolean
   '@operator': string|Operator
   '@value'?: any | [] // a value or an array of values
+}
+
+export interface OrderBy {
+  field: string
+  direction?: string|OrderDirection
 }
 
 export enum Operator {
@@ -50,8 +55,7 @@ export enum Operator {
   'IN' = 'IN',
   'NOT IN' = 'NOT IN',
   'MAX' = 'MAX',
-  'MIN' = 'MIN',
-  'COUNT' = 'COUNT'
+  'MIN' = 'MIN'
 }
 
 export enum OrderDirection {
