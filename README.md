@@ -47,12 +47,6 @@ let criteria: Criteria = {
   // WHERE name LIKE '%ert%'
   name: { '@operator': 'LIKE', '@value': '%ert%' },
 
-  // you can also use MIN or MAX as operator
-  // WHERE age = (SELECT MAX(age) FROM person WHERE name LIKE '%ert%')
-  // the where clause will append all criteria of the same object apart from other MIN or MAX
-  age: { '@operator': 'MAX' },
-  age: { '@operator': 'MIN' },
-
   // use an array of values which will equal to an SQL IN operator
   // WHERE job IN ('student', 'teacher')
   job: [ 'student', 'teacher' ],
