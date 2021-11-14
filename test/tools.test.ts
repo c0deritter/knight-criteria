@@ -26,14 +26,13 @@ describe('isComparison', function() {
 
   it('should return false for a wrong object', function() {
     expect(isComparison({})).to.be.false
-    expect(isComparison({ value: '', a: '' })).to.be.false
-    expect(isComparison({ operator: '' })).to.be.false
-    expect(isComparison({ value: '', operator: '', a: ''})).to.be.false
+    expect(isComparison({ '@value': '', a: '' })).to.be.false
   })
 
   it('should return true for a correct object', function() {
-    expect(isComparison({ value: '' })).to.be.true
-    expect(isComparison({ value: '', operator: '' })).to.be.true
+    expect(isComparison({ '@operator': '' })).to.be.true
+    expect(isComparison({ '@operator': '', '@value': '' })).to.be.true
+    expect(isComparison({ '@value': '', '@operator': '', a: ''})).to.be.true
   })
 })
 
