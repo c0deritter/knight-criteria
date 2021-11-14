@@ -5,6 +5,8 @@ export interface CriteriaObject {
   '@load'?: boolean
   '@loadSeparately'?: boolean
   '@count'?: number|Comparison
+  '@min'?: number|Comparison
+  '@max'?: number|Comparison
 
   [field: string]:
     // a value
@@ -53,9 +55,7 @@ export enum Operator {
   'LIKE' = 'LIKE',
   'NOT LIKE' = 'NOT LIKE',
   'IN' = 'IN',
-  'NOT IN' = 'NOT IN',
-  'MAX' = 'MAX',
-  'MIN' = 'MIN'
+  'NOT IN' = 'NOT IN'
 }
 
 export enum OrderDirection {
