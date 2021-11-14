@@ -4,7 +4,7 @@ export interface CriteriaObject {
   '@not'?: boolean
   '@load'?: boolean
   '@loadSeparately'?: boolean
-  '@count': number|Comparison
+  '@count'?: number|Comparison
 
   [field: string]:
     // a value
