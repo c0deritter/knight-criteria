@@ -46,7 +46,7 @@ export function summarizeCriteria(criteria: Criteria, summarized: any = {}): Cri
       if (! (key in summarized) && key[0] == '@') {
         summarized[key] = criteria[key]
       }
-      else if (typeof criteria[key] == 'object') {
+      else if (typeof criteria[key] == 'object' && criteria[key] !== null) {
         if (! (key in summarized)) {
           summarized[key] = {}
         }

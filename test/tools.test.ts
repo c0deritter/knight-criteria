@@ -91,6 +91,12 @@ describe('summarizeCriteria', function() {
     })
   })
 
+  it('should ignore relastionship whose values are null', function() {
+    expect(summarizeCriteria({
+      relationship: null
+    })).to.deep.equal({})
+  })
+
   it('should return the meta data of a criteria array', function() {
     expect(summarizeCriteria([[
       {
