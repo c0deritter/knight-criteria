@@ -10,7 +10,13 @@ export function isCriteriaEmpty(criteria: CriteriaObject) {
   return true
 }
 
-export function isComparison(value: any): boolean {
+/**
+ * Checks if a given value is an object and implements the interface Comparison.
+ * 
+ * @param value An arbitrary value.
+ * @returns Returns true if the given value is an object and has the `@operator` property.
+ */
+export function isCriteriaComparison(value: any): boolean {
   return typeof value == 'object' && value !== null && value['@operator'] != undefined
 }
 
@@ -26,16 +32,16 @@ export function isComparison(value: any): boolean {
  * @param summarized 
  * @returns 
  */
-export function summarize(criteria: Criteria, summarized: any = {}): CriteriaObject {
+export function summarizeCriteria(criteria: Criteria, summarized: any = {}): CriteriaObject {
   if (criteria instanceof Array) {
     for (let criterium of criteria) {
       if (typeof criterium == 'object') {
-        summarize(criterium, summarized)
+        summarizeCriteria(criterium, summarized)
       }
     }
   }
   
-  else if (typeof criteria == 'object') {
+  else if (typeof criteria == 'object' && criteria !== null) {
     for (let key of Object.keys(criteria)) {
       if (! (key in summarized) && key[0] == '@') {
         summarized[key] = criteria[key]
@@ -45,7 +51,7 @@ export function summarize(criteria: Criteria, summarized: any = {}): CriteriaObj
           summarized[key] = {}
         }
 
-        summarize(criteria[key], summarized[key])
+        summarizeCriteria(criteria[key], summarized[key])
       }
     }
   }

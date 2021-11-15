@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import 'mocha'
-import { isComparison, isCriteriaEmpty, summarize } from '../src/tools'
+import { isCriteriaComparison, isCriteriaEmpty, summarizeCriteria } from '../src/tools'
 
 describe('isCriteriaEmpty', function() {
   it('should return false if criteria is not empty', function() {
@@ -15,38 +15,42 @@ describe('isCriteriaEmpty', function() {
 
 describe('isComparison', function() {
   it('should return false for any value other than a non null object', function() {
-    expect(isComparison(0)).to.be.false
-    expect(isComparison(true)).to.be.false
-    expect(isComparison(false)).to.be.false
-    expect(isComparison('')).to.be.false
-    expect(isComparison(null)).to.be.false
-    expect(isComparison(undefined)).to.be.false
-    expect(isComparison(NaN)).to.be.false
+    expect(isCriteriaComparison(0)).to.be.false
+    expect(isCriteriaComparison(true)).to.be.false
+    expect(isCriteriaComparison(false)).to.be.false
+    expect(isCriteriaComparison('')).to.be.false
+    expect(isCriteriaComparison(null)).to.be.false
+    expect(isCriteriaComparison(undefined)).to.be.false
+    expect(isCriteriaComparison(NaN)).to.be.false
   })
 
   it('should return false for a wrong object', function() {
-    expect(isComparison({})).to.be.false
-    expect(isComparison({ '@value': '', a: '' })).to.be.false
+    expect(isCriteriaComparison({})).to.be.false
+    expect(isCriteriaComparison({ '@value': '', a: '' })).to.be.false
   })
 
   it('should return true for a correct object', function() {
-    expect(isComparison({ '@operator': '' })).to.be.true
-    expect(isComparison({ '@operator': '', '@value': '' })).to.be.true
-    expect(isComparison({ '@value': '', '@operator': '', a: ''})).to.be.true
+    expect(isCriteriaComparison({ '@operator': '' })).to.be.true
+    expect(isCriteriaComparison({ '@operator': '', '@value': '' })).to.be.true
+    expect(isCriteriaComparison({ '@value': '', '@operator': '', a: ''})).to.be.true
   })
 })
 
-describe('summarize', function() {
+describe('summarizeCriteria', function() {
+  it('should return an empty criteria object if null was given', function() {
+    expect(summarizeCriteria(null as any)).to.deep.equal({})
+  })
+
   it('should return an empty criteria object if an empty criteria object was given', function() {
-    expect(summarize({})).to.deep.equal({})
+    expect(summarizeCriteria({})).to.deep.equal({})
   })
 
   it('should return an empty criteria object if an empty array was given', function() {
-    expect(summarize([])).to.deep.equal({})
+    expect(summarizeCriteria([])).to.deep.equal({})
   })
 
   it('should return the meta data of a criteria object', function() {
-    expect(summarize({
+    expect(summarizeCriteria({
       property1: 'a',
       property2: 1,
       '@orderBy': 'property1',
@@ -60,7 +64,7 @@ describe('summarize', function() {
   })
 
   it('should regard relationships', function() {
-    expect(summarize({
+    expect(summarizeCriteria({
       property1: 'a',
       property2: 1,
       '@orderBy': 'property1',
@@ -88,7 +92,7 @@ describe('summarize', function() {
   })
 
   it('should return the meta data of a criteria array', function() {
-    expect(summarize([[
+    expect(summarizeCriteria([[
       {
         property1: 'a',
         property2: 1,
@@ -118,7 +122,7 @@ describe('summarize', function() {
   })
 
   it('should combine meta data from multiple criteria objects but not overwrite once made settings', function() {
-    expect(summarize([
+    expect(summarizeCriteria([
       {
         '@orderBy': 'property1',
         '@limit': 10,
@@ -156,7 +160,7 @@ describe('summarize', function() {
   })
 
   it('should combine meta data from multiple criteria objects and add missing settings', function() {
-    expect(summarize([
+    expect(summarizeCriteria([
       {
         object1: {
         }
