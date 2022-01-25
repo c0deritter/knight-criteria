@@ -1,4 +1,4 @@
-export type Criteria = CriteriaObject | (Criteria | 'AND' | 'OR' | 'XOR')[]
+export type Criteria<T extends CriteriaObject = CriteriaObject> = T | (Criteria<T> | 'AND' | 'OR' | 'XOR')[]
 
 export interface CriteriaObject {
   '@not'?: boolean
