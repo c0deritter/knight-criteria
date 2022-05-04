@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
-import { isCriteriaComparison, isCriteriaEmpty, summarizeCriteria } from '../src/tools'
+import { CriteriaObject } from '../src/criteria'
+import { isCriteriaComparison, isCriteriaEmpty, summarizeCriteria, workUpCriterion } from '../src/tools'
 
 describe('isCriteriaEmpty', function() {
   it('should return false if criteria is not empty', function() {
@@ -194,5 +195,65 @@ describe('summarizeCriteria', function() {
         '@offset': 41
       }
     })
+  })
+})
+
+describe('workUpCriterion', function () {
+  it('should process a property in an criteria object', function() {
+    let criteria = {
+      criterion: 1
+    }
+
+    workUpCriterion(criteria, 'criterion', (criteria: CriteriaObject) => {
+      criteria.replaced = {
+        value: criteria.criterion
+      }
+
+      delete criteria.criterion
+    })
+
+    expect(criteria).to.deep.equal({
+      replaced: {
+        value: 1
+      }
+    })
+  })
+
+  it('should process a property in an criteria array', function() {
+    let criteria = [
+      {
+        criterion: 1
+      },
+      'AND',
+      [
+        {
+          criterion: 2
+        }
+      ]
+    ]
+
+    workUpCriterion(criteria, 'criterion', (criteria: CriteriaObject) => {
+      criteria.replaced = {
+        value: criteria.criterion
+      }
+
+      delete criteria.criterion
+    })
+
+    expect(criteria).to.deep.equal([
+      {
+        replaced: {
+          value: 1
+        }
+      },
+      'AND',
+      [
+        {
+          replaced: {
+            value: 2
+          }
+        }
+      ]
+    ])
   })
 })

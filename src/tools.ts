@@ -58,3 +58,34 @@ export function summarizeCriteria(criteria: Criteria, summarized: any = {}): Cri
 
   return summarized
 }
+
+/**
+ * Sometimes you will offer criterions which are technically not a part of your system
+ * but which are for facilitating the usage of your criteria. In that case you will need
+ * to work up those criterions to be expressed in the technical correct way of your 
+ * application. For example, you might want to replace a criterion with one which
+ * can actually processed by your application logic.
+ * 
+ * This function will search every criteria object and every time when it finds the 
+ * specified criterion it will call your delivered function which will work the criterion 
+ * up.
+ * 
+ * @param criteria The criteria which contains the criterion which should be worked up
+ * @param criterion The criterion which should be worked up
+ * @param workUpFunction The function which will work up the criterion
+ */
+export function workUpCriterion(criteria: Criteria, criterion: string, workUpFunction: (criteria: CriteriaObject) => void) {
+  if (criteria instanceof Array) {
+    for (let element of criteria) {
+      if (typeof element == 'object') {
+        workUpCriterion(element, criterion, workUpFunction)
+      }
+    }
+  }
+
+  else if (typeof criteria == 'object' && criteria !== null) {
+    if (criterion in criteria) {
+      workUpFunction(criteria)
+    }
+  }
+}
