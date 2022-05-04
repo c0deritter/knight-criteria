@@ -1,9 +1,28 @@
 import { Criteria, CriteriaObject } from './criteria'
 
-export function isCriteriaEmpty(criteria: CriteriaObject) {
-  for (let property of Object.keys(criteria)) {
-    if (property[0] !== '@') {
-      return false
+/**
+ * Goes through all properties and checks if there is at least one which is not an 
+ * @-property.
+ * 
+ * @param criteria The criteria which are to be checked
+ * @returns True if there is not one criterion defined
+ */
+export function isCriteriaEmpty(criteria: Criteria) {
+  if (criteria instanceof Array) {
+    for (let element of criteria) {
+      if (typeof element == 'object') {
+        if (! isCriteriaEmpty(element)) {
+          return false
+        }
+      }
+    }
+  }
+
+  else if (typeof criteria == 'object' && criteria !== null) {
+    for (let property of Object.keys(criteria)) {
+      if (property[0] !== '@') {
+        return false
+      }
     }
   }
 
@@ -34,9 +53,9 @@ export function isCriteriaComparison(value: any): boolean {
  */
 export function summarizeCriteria(criteria: Criteria, summarized: any = {}): CriteriaObject {
   if (criteria instanceof Array) {
-    for (let criterium of criteria) {
-      if (typeof criterium == 'object') {
-        summarizeCriteria(criterium, summarized)
+    for (let element of criteria) {
+      if (typeof element == 'object') {
+        summarizeCriteria(element, summarized)
       }
     }
   }

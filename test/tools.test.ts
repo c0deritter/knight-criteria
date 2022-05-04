@@ -4,13 +4,22 @@ import { CriteriaObject } from '../src/criteria'
 import { isCriteriaComparison, isCriteriaEmpty, summarizeCriteria, workUpCriterion } from '../src/tools'
 
 describe('isCriteriaEmpty', function() {
-  it('should return false if criteria is not empty', function() {
+  it('should return false if criteria object is not empty', function() {
     expect(isCriteriaEmpty({ a: 'a' })).to.be.false
   })
 
-  it('should return true if criteria is empty', function() {
+  it('should return true if criteria object is empty', function() {
     expect(isCriteriaEmpty({})).to.be.true
-    expect(isCriteriaEmpty({ '@set': {} })).to.be.true
+    expect(isCriteriaEmpty({ '@not': true })).to.be.true
+  })
+
+  it('should return false if criteria array is not empty', function() {
+    expect(isCriteriaEmpty([{}, 'AND', [{ a: 'a' }]])).to.be.false
+  })
+
+  it('should return true if criteria object is empty', function() {
+    expect(isCriteriaEmpty([{}, 'AND', [{}]])).to.be.true
+    expect(isCriteriaEmpty([{ '@not': true }, 'AND', [{ '@not': true }]])).to.be.true
   })
 })
 
