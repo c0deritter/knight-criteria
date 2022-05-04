@@ -4,7 +4,7 @@ A data structure to describe criteria for operations on a data store. They can b
 
 ## Related packages
 
-You can use [knight-sql-criteria-filler](https://github.com/c0deritter/knight-sql-criteria-filler) to fill a [knight-sql](https://github.com/c0deritter/knight-sql) query which can be transformed into a SQL string. [knight-orm](https://github.com/c0deritter/knight-orm) is a more complete solution which also considers the mapping of object properties to database columns and is also capable of handling relationships between tables.
+The package [knight-orm](https://github.com/c0deritter/knight-orm) offers a criteria-based interface to load entities from databases.
 
 If you just want to match plain JavaScript objects against criteria you can use [knight-criteria-matcher](https://github.com/c0deritter/knight-criteria-matcher). There is also an in-memory object database [knight-object-db](https://github.com/c0deritter/knight-object-db) which uses criteria for queries.
 
@@ -158,8 +158,100 @@ SELECT * FROM person JOIN email ON person.id = email.person_id WHERE (age >= 20 
 
 ## Tools
 
+### isCriteriaEmpty
+
+Checks if a given criteria object or criteria array does not define any criteria.
+
 ```typescript
+import { isCriteriaEmpty } from 'knight-criteria'
+
 isCriteriaEmpty({}) == true
-isCriteriaEmpty({ name: 'Josa' }) == false
-isCriteriaEmpty({ '@limit': 10 }) == true
+isCriteriaEmpty({ '@not': true }) == true
+isCriteriaEmpty({ name: 'Josa' }) == true
+```
+
+### isCriteriaComparison
+
+This function checks if a given object implements the the `Comparison` Interface. It can be useful for more sophisticated algorithms.
+
+```typescript
+import { isCriteriaComparison } from 'knight-criteria'
+
+isCriteriaComparison(1) == false
+isCriteriaComparison({}) == false
+isCriteriaComparison({ '@value': 1 }) == false
+isCriteriaComparison({ '@operator': '!=', '@value': 1 }) == true
+isCriteriaComparison({ '@operator': '!=' }) == true
+```
+
+### summarizeCriteria
+
+This function will summarize every @-property which is useful if you are dealing with criteria arrays which can contain multiple conflicting @-property definitions.
+
+```typescript
+let criteria = [
+  {
+    '@limit': 10
+  },
+  {
+    '@limit': 20
+  }
+]
+```
+
+Here there are two limit definitions which conflict with each other. `summarizeCriteria` will collect give the first occurence of an @-property the priority and thus creates a standard for dealing with these situations.
+
+```typescript
+import { summarizeCriteria } from 'knight-citeria'
+
+let summarized = summarizeCriteria(criteria)
+
+summarized == {
+  '@limit': 10
+}
+```
+
+### workUpCriterion
+
+This function helps you with working up single criterions of the given criteria. This can be used to offer a simplified citeria interface.
+
+Imagine you want to facilitate your interface to access your user database by providing an`age` criterion which offers to search for users by their age instead of using a birth date.
+
+```typescript
+let critera = {
+  age: 30
+}
+```
+
+You now would want to work up the criterion and translate it into a birth date interval.
+
+```typescript
+import { CriteriaObject, workUpCriterion } from 'knight-criteria'
+
+workUpCriterion(criteria, 'age', async (criteria: CriteriaObject) => {
+  let date = new Date
+  date.setFullYear(date.getFullYear() - criteria.age)
+  
+  criteria.birthDate = {
+    '@operator': '<',
+    '@value': date
+  }
+
+  delete criteria.age
+})
+```
+
+This function is especially useful when dealing with criteria arrays which might contain multiple `age` criterions in different locations.
+
+```typescript
+let criteria = [
+  {
+    age: 30,
+    city: 'Dresden'
+  },
+  {
+    age: 20,
+    city: 'Berlin'
+  }
+]
 ```
