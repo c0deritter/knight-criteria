@@ -1,4 +1,4 @@
-import { Criteria, CriteriaObject } from './criteria'
+import { Criteria, CriteriaObject, ValueCriteriaField } from './criteria'
 
 /**
  * Goes through all properties and checks if there is at least one which is not an 
@@ -78,6 +78,17 @@ export function summarizeCriteria(criteria: Criteria, summarized: any = {}): Cri
   return summarized
 }
 
+export function addCriterion(criteria: Criteria, criterionName: string, criterionValue: ValueCriteriaField | Criteria) {
+  if (criteria instanceof Array) {
+    criteria.push('AND', {
+      [criterionName]: criterionValue
+    })
+  }
+  else if (typeof criteria == 'object') {
+    criteria[criterionName] = criterionValue
+  }
+}
+
 /**
  * Sometimes you will offer criterions which are technically not a part of your system
  * but which are for facilitating the usage of your criteria. In that case you will need
@@ -93,7 +104,7 @@ export function summarizeCriteria(criteria: Criteria, summarized: any = {}): Cri
  * @param criterion The criterion which should be worked up
  * @param workUpFunction The function which will work up the criterion
  */
-export function workUpCriterion(criteria: Criteria, criterion: string, workUpFunction: (criteria: CriteriaObject) => void) {
+export function workUpCriterion(criteria: Criteria, criterion: string, workUpFunction: (criteriaObject: CriteriaObject) => void) {
   if (criteria instanceof Array) {
     for (let element of criteria) {
       if (typeof element == 'object') {
@@ -107,4 +118,44 @@ export function workUpCriterion(criteria: Criteria, criterion: string, workUpFun
       workUpFunction(criteria)
     }
   }
+}
+
+export function workUpCriteria(criteria: Criteria, workUpFunction: (criteriaObject: CriteriaObject) => void) {
+  if (criteria instanceof Array) {
+    for (let element of criteria) {
+      if (element instanceof Array) {
+        workUpCriteria(element, workUpFunction)
+      }
+      else if (typeof element == 'object') {
+        workUpFunction(element)
+      }
+    }
+  }
+  else if (typeof criteria == 'object') {
+    workUpFunction(criteria)
+  }
+}
+
+export function transformCriteria(criteria: Criteria, transformFunction: (criteria: CriteriaObject) => CriteriaObject): Criteria {
+  if (criteria instanceof Array) {
+    let transformedCriteria = []
+    
+    for (let element of criteria) {
+      if (element instanceof Array) {
+        let transformedArray = transformCriteria(element, transformFunction)
+        transformedCriteria.push(transformedArray)
+      }
+      else if (typeof element == 'object') {
+        let transformedObject = transformFunction(element)
+        transformedCriteria.push(transformedObject)
+      }
+      else {
+        transformedCriteria.push(element)
+      }
+    }
+
+    return transformedCriteria
+  }
+
+  return transformFunction(criteria)
 }
