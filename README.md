@@ -211,6 +211,67 @@ summarized == {
 }
 ```
 
+### addCriteria
+
+Sometimes you will want to add a certain criterion to given criteria. Since criteria can be in the form of an object or in the form of an array, this function will help you to treat both equally.
+
+In the case of a criteria object it will add the new criterions to that object.
+
+```typescript
+import { addCriteria } from 'knight-criteria'
+
+let criteria = {
+  job: 'tree cutter'
+}
+
+addCriteria(criteria, {
+  age: {
+    '@operator': '>=',
+    '@value': 30
+  }
+})
+
+criteria == {
+  job: 'tree cutter',
+  age: {
+    '@operator': '>=',
+    '@value': 30
+  }
+}
+```
+
+In the case of a criteria array it will add the additional criteria to the end of that array connected by an `AND` operator.
+
+```typescript
+import { addCriteria } from 'knight-criteria'
+
+let criteria = [
+  {
+    job: 'tree cutter'
+  }
+]
+
+addCriteria(criteria, {
+  age: {
+    '@operator': '>=',
+    '@value': 30
+  }
+})
+
+criteria == [
+  {
+    job: 'tree cutter'
+  },
+  'AND',
+  {
+    age: {
+      '@operator': '>=',
+      '@value': 30
+    }
+  }
+]
+```
+
 ### workUpCriterion
 
 This function helps you with working up single criterions of the given criteria. This can be used to offer a simplified citeria interface.
@@ -253,5 +314,85 @@ let criteria = [
     age: 20,
     city: 'Berlin'
   }
+]
+```
+
+### workUpCriteria
+
+Sometimes you want to process given criteria by adding additional criterions or by altering or deleting existing ones. Since criteria can be in the form of any object or an array which can contain nested array, this function will iterate through the latter ones and will present to you every found criteria object for you to work it up.
+
+```typescript
+import { CriteriaObject, workUpCriteria } from 'knight-criteria'
+
+let criteria = [
+  {
+    age: 30,
+    city: 'Dresden'
+  },
+  'AND',
+  [
+    {
+      age: 31,
+      city: 'Berlin'
+    }
+  ]
+]
+
+workUpCriteria(criteria, (criteriaObject: CriteriaObject) => {
+  criteriaObject['job'] = 'tree cutter'
+})
+
+criteria == [
+  {
+    age: 30,
+    city: 'Dresden',
+    job: 'tree cutter'
+  },
+  'AND',
+  [
+    {
+      age: 31,
+      city: 'Berlin',
+      job: 'tree cutter'
+    }
+  ]
+]
+```
+
+### transformCriteria
+
+Sometimes you not only want to work up given criteria, sometimes you want to transform them into completely new criteria. This function will iterate through the criteria structure, presenting every criteria object to you which you can use to create a new criteria object which this function will put into the same place of the criteria structure as before, but every part of the structure being different objects.
+
+```typescript
+import { CriteriaObject, transformCriteria } from 'knight-criteria'
+
+let criteria = [
+  {
+    age: 30,
+    city: 'Dresden'
+  },
+  'AND',
+  [
+    {
+      age: 31,
+      city: 'Berlin'
+    }
+  ]
+]
+
+transformCriteria(criteria, (criteriaObject: CriteriaObject) => ({
+  group: criteriaObject.age > 30 ? 'Still old' : 'Still young'
+}))
+
+criteria == [
+  {
+    group: 'Still young'
+  },
+  'AND',
+  [
+    {
+      group: 'Still old'
+    }
+  ]
 ]
 ```

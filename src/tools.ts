@@ -78,14 +78,23 @@ export function summarizeCriteria(criteria: Criteria, summarized: any = {}): Cri
   return summarized
 }
 
-export function addCriterion(criteria: Criteria, criterionName: string, criterionValue: ValueCriteriaField | Criteria) {
+/**
+ * Will add every criterion given in the criteriaToAdd object into the given criteria.
+ * The given criteria might either be a criteria object or an array. In the case of a
+ * criteria object it will add every criterion to that object. In the case of a criteria
+ * array it will add the given criteria to the last position connected by an AND operator.
+ * 
+ * @param criteria The criteria which additional criteria should be added to.
+ * @param criteriaToAdd The criteria which are to be added.
+ */
+export function addCriteria(criteria: Criteria, criteriaToAdd: CriteriaObject) {
   if (criteria instanceof Array) {
-    criteria.push('AND', {
-      [criterionName]: criterionValue
-    })
+    criteria.push('AND', criteriaToAdd)
   }
   else if (typeof criteria == 'object') {
-    criteria[criterionName] = criterionValue
+    for (let key in criteriaToAdd) {
+      criteria[key] = criteriaToAdd[key]
+    }
   }
 }
 
@@ -120,6 +129,19 @@ export function workUpCriterion(criteria: Criteria, criterion: string, workUpFun
   }
 }
 
+/**
+ * In contrast to workUpCriterion, this function will not only work up a single criterion
+ * but it will give you the possibility to freely look into every found criteria object
+ * and to work it up as you like, which means that you can also remove or work up more than
+ * just one criterion.
+ * 
+ * Beware that this function will not iterate into criteria objects or array given as a criterion
+ * for a relationship. If you want to achieve this you need to call workUpCriteria recursively
+ * inside your workUpFunction.
+ * 
+ * @param criteria The criteria which should be worked up.
+ * @param workUpFunction The function which will be called for each found criteria object.
+ */
 export function workUpCriteria(criteria: Criteria, workUpFunction: (criteriaObject: CriteriaObject) => void) {
   if (criteria instanceof Array) {
     for (let element of criteria) {
@@ -136,6 +158,19 @@ export function workUpCriteria(criteria: Criteria, workUpFunction: (criteriaObje
   }
 }
 
+/**
+ * Similarly to workUpCriteria, this function will find every criteria object, but it will give you the
+ * opportunity to replace them with completely new criteria objects. The result will be the same criteria
+ * structure as before but with every criteria object replaced by a new one.
+ * 
+ * Also similarly to workUpCriteria, beware that this function will not iterate into the criteria given
+ * as criterions for relationships. If you want to recursively go down the criteria tree you need to call
+ * transformCriteria inside your transformFunction again.
+ * 
+ * @param criteria The criteria which are to be transformed.
+ * @param transformFunction The function which transforms every found criteria object.
+ * @returns The transformed criteria object which has the same structure as before but every criteria object was replaced.
+ */
 export function transformCriteria(criteria: Criteria, transformFunction: (criteria: CriteriaObject) => CriteriaObject): Criteria {
   if (criteria instanceof Array) {
     let transformedCriteria = []

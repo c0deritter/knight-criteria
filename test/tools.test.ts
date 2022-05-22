@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import 'mocha'
 import { CriteriaObject } from '../src/criteria'
-import { isCriteriaComparison, isCriteriaEmpty, summarizeCriteria, workUpCriterion } from '../src/tools'
+import { addCriteria, isCriteriaComparison, isCriteriaEmpty, summarizeCriteria, transformCriteria, workUpCriteria, workUpCriterion } from '../src/tools'
 
 describe('isCriteriaEmpty', function() {
   it('should return false if criteria object is not empty', function() {
@@ -207,6 +207,80 @@ describe('summarizeCriteria', function() {
   })
 })
 
+describe('addCriteria', function() {
+  it('should add criteria to a criteria object', function() {
+    let criteria = {
+      a: 'a'
+    }
+
+    addCriteria(criteria, {
+      b: 'b',
+      c: {
+        d: 'd'
+      }
+    })
+
+    expect(criteria).to.deep.equal({
+      a: 'a',
+      b: 'b',
+      c: {
+        d: 'd'
+      }
+    })
+  })
+
+  it('should overwrite already existing criterions on a criteria object', function() {
+    let criteria = {
+      a: 'a',
+      b: {
+        c: 'c'
+      }
+    }
+
+    addCriteria(criteria, {
+      a: 'x',
+      b: {
+        c: 'y'
+      }
+    })
+
+    expect(criteria).to.deep.equal({
+      a: 'x',
+      b: {
+        c: 'y'
+      }
+    })
+  })
+
+  it('should add criteria to a criteria array', function() {
+    let criteria = [
+      {
+        a: 'a'
+      }
+    ]
+
+    addCriteria(criteria, {
+      b: 'b',
+      c: {
+        d: 'd'
+      }
+    })
+
+    expect(criteria).to.deep.equal([
+      {
+        a: 'a'
+      },
+      'AND',
+      {
+        b: 'b',
+        c: {
+          d: 'd'
+        }
+      }
+    ])
+  })
+})
+
 describe('workUpCriterion', function () {
   it('should process a property in an criteria object', function() {
     let criteria = {
@@ -261,6 +335,100 @@ describe('workUpCriterion', function () {
           replaced: {
             value: 2
           }
+        }
+      ]
+    ])
+  })
+})
+
+describe('workUpCriteria', function () {
+  it('should work up a criteria object', function() {
+    let criteria = {
+      a: 'a'
+    }
+
+    workUpCriteria(criteria, (criteriaObject: CriteriaObject) => {
+      criteriaObject['b'] = 'b'
+      delete criteriaObject.a
+    })
+
+    expect(criteria).to.deep.equal({
+      b: 'b'
+    })
+  })
+
+  it('should work up a criteria array', function() {
+    let criteria = [
+      {
+        a: 'a'
+      },
+      'AND',
+      [
+        {
+          b: 'a'
+        }  
+      ]
+    ]
+
+    workUpCriteria(criteria, (criteriaObject: CriteriaObject) => {
+      criteriaObject['b'] = 'b'
+      delete criteriaObject.a
+    })
+
+    expect(criteria).to.deep.equal([
+      {
+        b: 'b'
+      },
+      'AND',
+      [
+        {
+          b: 'b'
+        }
+      ]
+    ])
+  })
+})
+
+describe('transformCriteria', function () {
+  it('should transform a criteria object', function() {
+    let criteria = {
+      a: 'a'
+    }
+
+    let transformed = transformCriteria(criteria, (criteriaObject: CriteriaObject) => ({
+      b: criteriaObject.a
+    }))
+
+    expect(transformed).to.deep.equal({
+      b: 'a'
+    })
+  })
+
+  it('should work up a criteria array', function() {
+    let criteria = [
+      {
+        a: 'a'
+      },
+      'AND',
+      [
+        {
+          b: 'b'
+        }  
+      ]
+    ]
+
+    let transformed = transformCriteria(criteria, (criteriaObject: CriteriaObject) => ({
+      c: criteriaObject.a ? criteriaObject.a : criteriaObject.b
+    }))
+
+    expect(transformed).to.deep.equal([
+      {
+        c: 'a'
+      },
+      'AND',
+      [
+        {
+          c: 'b'
         }
       ]
     ])
