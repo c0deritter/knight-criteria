@@ -8,7 +8,7 @@ export interface CriteriaObject {
   '@min'?: number|Comparison
   '@max'?: number|Comparison
 
-  [field: string]: ValueCriteriaField | Criteria
+  [field: string]: ValueCriteria | Criteria
 
   '@orderBy'?:
     string |
@@ -19,7 +19,7 @@ export interface CriteriaObject {
   '@offset'?: number
 }
 
-export type ValueCriteriaField<T = any> =  
+export type ValueCriteria<T = any> =  
   // a value
   T |
 

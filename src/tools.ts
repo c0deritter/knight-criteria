@@ -1,4 +1,4 @@
-import { Criteria, CriteriaObject, ValueCriteriaField } from './criteria'
+import { Criteria, CriteriaObject, ValueCriteria } from './criteria'
 
 /**
  * Goes through all properties and checks if there is at least one which is not an 
